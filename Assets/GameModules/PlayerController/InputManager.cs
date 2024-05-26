@@ -7,7 +7,15 @@ public class InputManager : MonoBehaviour
 {
     
     PlayerController playerController;
-    [SerializeField] private Vector2 movementInput;
+    public Vector2 movementInput;
+    public float horizontalInput;
+    public float verticalInput;
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     *  MonoBehaviour Functions
+     */
 
      private void OnEnable()
     {
@@ -24,5 +32,33 @@ public class InputManager : MonoBehaviour
     private void OnDisable()
     {
         playerController.Disable();
+    }
+
+    
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     *  Public Functions
+     */
+    public void HandleAllInputs()
+    {
+        HandleMovementInput();
+        // Do jump input
+        // Do crouch input
+        // Do sprint input
+        // Do attack input
+        // Do interact input
+        // Do pause input
+        
+    }
+    
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     *  Private Functions
+     */
+    
+    void HandleMovementInput()
+    {
+        horizontalInput = movementInput.x;
+        verticalInput = movementInput.y;
     }
 }
