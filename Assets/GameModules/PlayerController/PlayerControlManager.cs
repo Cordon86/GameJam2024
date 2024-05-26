@@ -7,6 +7,7 @@ public class PlayerControlManager : MonoBehaviour
 {
     InputManager inputManager;
     PlayerLocomotion playerMovement;
+    CameraManager cameraManager;
     
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,6 +19,9 @@ public class PlayerControlManager : MonoBehaviour
     {
         playerMovement = GetComponent<PlayerLocomotion>();
         inputManager = GetComponent<InputManager>();
+        cameraManager = FindObjectOfType<CameraManager>();
+        //cameraManager = GetComponent<CameraManager>();
+        ;
     }
     private void Update()
     {
@@ -27,5 +31,10 @@ public class PlayerControlManager : MonoBehaviour
     private void FixedUpdate()
     {
         playerMovement.HandleAllMovements();
+    }
+
+    private void LateUpdate()
+    {
+        cameraManager.HandleAllCameraMovement();
     }
 }
