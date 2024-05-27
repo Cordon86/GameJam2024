@@ -1,24 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerLocomotion : MonoBehaviour
 {
+    // [SerializeField] private
     InputManager inputManager;
     
     //Vector3 moveDirection;
     Transform cameraObject;
     Rigidbody rigidBodyPlayer;
     
-    public float movementSpeed = 5.0f;
-    public float rotationSpeed = 15.0f;
-    
-    
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /*
-     *  MonoBehaviour Functions
-     */
+    [Header("Movement options")]
+    [SerializeField] private float walkSpeed = 2.0f;
+    [SerializeField] private float moveSpeed = 4.0f;
+    [SerializeField] private float runSpeed = 8.0f;
+    [SerializeField] private float rotationSpeed = 15.0f;
 
+    // used by external scripts
+    public bool isSprinting;
+    
+    
+    //***** MonoBehaviour Functions
     void Awake()
     {
         Debug.Log("PlayerMovement Awake");
@@ -51,11 +55,8 @@ public class PlayerLocomotion : MonoBehaviour
         }
     } 
    
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /*
-    *  Public Functions
-    */
     
+    //***** Public Functions
     public void HandleAllMovements()
     {
         HandleMovement();
@@ -67,12 +68,8 @@ public class PlayerLocomotion : MonoBehaviour
         // do interact
     }
     
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /*
-     *  Private Functions
-     */
     
+    //***** Private Functions
     private void HandleMovement()
     {
         Vector3 moveDirection = Vector3.zero;
@@ -80,7 +77,25 @@ public class PlayerLocomotion : MonoBehaviour
         moveDirection += cameraObject.right * inputManager.horizontalInput;
         moveDirection.Normalize();
         moveDirection.y = 0;
-        moveDirection *= movementSpeed;
+        
+        if(isSprinting)
+        {
+            moveDirection *= runSpeed;
+        }
+        else
+        {
+            if (inputManager.moveAmount >= 0.5f)
+            {
+                moveDirection *= moveSpeed;
+            }
+            else
+            {
+                moveDirection *= walkSpeed;
+            }
+        }
+
+        //TODO: Implement variable speed
+        //moveDirection *= moveSpeed;
         
         Vector3 movementVelocity = moveDirection;
         rigidBodyPlayer.velocity = movementVelocity;
@@ -104,6 +119,11 @@ public class PlayerLocomotion : MonoBehaviour
         Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         
         transform.rotation = playerRotation;
+    }
+    
+    public void SetSprinting(bool sprinting)
+    {
+        isSprinting = sprinting;
     }
 }
 
