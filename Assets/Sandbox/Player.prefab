@@ -261,6 +261,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalInput: 0
   verticalInput: 0
+  moveAmount: 0
+  b_Input: 0
   cameraInputX: 0
   cameraInputY: 0
 --- !u!114 &1237840985171216217
@@ -275,10 +277,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aee9048f39f65942a2b4bd45cb22fc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 2
-  moveSpeed: 10
-  runSpeed: 6
-  rotationSpeed: 15
+  walkSpeed: 4
+  moveSpeed: 8
+  runSpeed: 12
+  rotationSpeed: 8
+  isSprinting: 0
 --- !u!54 &1237840985171216218
 Rigidbody:
   m_ObjectHideFlags: 0
