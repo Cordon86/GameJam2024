@@ -263,6 +263,45 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""BuildActions"",
+            ""id"": ""ff9ccdd6-39ad-452a-aaac-d3b411391d22"",
+            ""actions"": [
+                {
+                    ""name"": ""RotateTower"",
+                    ""type"": ""Button"",
+                    ""id"": ""57070a37-ff7a-47d4-bc96-0c513d6e1b31"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""0b559a28-3ec6-41da-8348-03ff4d6acde7"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateTower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a862e713-3608-4d47-a897-858f9be68cb5"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateTower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -274,6 +313,9 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         // PlayerActions
         m_PlayerActions = asset.FindActionMap("PlayerActions", throwIfNotFound: true);
         m_PlayerActions_B = m_PlayerActions.FindAction("B", throwIfNotFound: true);
+        // BuildActions
+        m_BuildActions = asset.FindActionMap("BuildActions", throwIfNotFound: true);
+        m_BuildActions_RotateTower = m_BuildActions.FindAction("RotateTower", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -431,6 +473,52 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         }
     }
     public PlayerActionsActions @PlayerActions => new PlayerActionsActions(this);
+
+    // BuildActions
+    private readonly InputActionMap m_BuildActions;
+    private List<IBuildActionsActions> m_BuildActionsActionsCallbackInterfaces = new List<IBuildActionsActions>();
+    private readonly InputAction m_BuildActions_RotateTower;
+    public struct BuildActionsActions
+    {
+        private @PlayerController m_Wrapper;
+        public BuildActionsActions(@PlayerController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @RotateTower => m_Wrapper.m_BuildActions_RotateTower;
+        public InputActionMap Get() { return m_Wrapper.m_BuildActions; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(BuildActionsActions set) { return set.Get(); }
+        public void AddCallbacks(IBuildActionsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_BuildActionsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_BuildActionsActionsCallbackInterfaces.Add(instance);
+            @RotateTower.started += instance.OnRotateTower;
+            @RotateTower.performed += instance.OnRotateTower;
+            @RotateTower.canceled += instance.OnRotateTower;
+        }
+
+        private void UnregisterCallbacks(IBuildActionsActions instance)
+        {
+            @RotateTower.started -= instance.OnRotateTower;
+            @RotateTower.performed -= instance.OnRotateTower;
+            @RotateTower.canceled -= instance.OnRotateTower;
+        }
+
+        public void RemoveCallbacks(IBuildActionsActions instance)
+        {
+            if (m_Wrapper.m_BuildActionsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IBuildActionsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_BuildActionsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_BuildActionsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public BuildActionsActions @BuildActions => new BuildActionsActions(this);
     public interface IPlayerMovementActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -439,5 +527,9 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     public interface IPlayerActionsActions
     {
         void OnB(InputAction.CallbackContext context);
+    }
+    public interface IBuildActionsActions
+    {
+        void OnRotateTower(InputAction.CallbackContext context);
     }
 }

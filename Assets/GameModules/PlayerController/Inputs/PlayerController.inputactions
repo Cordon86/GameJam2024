@@ -241,6 +241,45 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "BuildActions",
+            "id": "ff9ccdd6-39ad-452a-aaac-d3b411391d22",
+            "actions": [
+                {
+                    "name": "RotateTower",
+                    "type": "Button",
+                    "id": "57070a37-ff7a-47d4-bc96-0c513d6e1b31",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0b559a28-3ec6-41da-8348-03ff4d6acde7",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateTower",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a862e713-3608-4d47-a897-858f9be68cb5",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateTower",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

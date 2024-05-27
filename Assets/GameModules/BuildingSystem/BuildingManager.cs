@@ -7,23 +7,50 @@ using UnityEngine.UI;
 
 public class BuildingManager : MonoBehaviour
 {
-    public GameObject[] towers;
-    public GameObject[] traps;
+    // [SerializeField] private
+    [Header("Towers & Traps")]
+    [SerializeField] private GameObject[] towers;
+    [SerializeField] private GameObject[] traps;
     
+    [Header("Layers & Masks")]
+    [SerializeField] private LayerMask layerMask;
+
+    // Private variables
     private GameObject pendingTower;
     private Vector3 placePosition;
     private RaycastHit hit;
-    [SerializeField] private LayerMask layerMask;
-
+    private float rotateValue = 15.0f;
+    
+    [SerializeField] private Toggle gridToggle;
+    public float gridSize = 1.0f;
+    bool gridEnabled = true;
+    
+    //***** MonoBehaviour Functions
     private void Update()
     {
-        if(pendingTower != null)
+        if(pendingTower)
         {
-            pendingTower.transform.position = placePosition;
+            if(gridEnabled)
+            {
+                pendingTower.transform.position = new Vector3(
+                                                NearestGrid(placePosition.x, gridSize), 
+                                                NearestGrid(placePosition.y, gridSize), // maybe set this 0?
+                                                NearestGrid(placePosition.z, gridSize)
+                                                );
+            }
+            else
+            {
+                pendingTower.transform.position = placePosition;
+            }
 
             if (Input.GetMouseButtonDown(0))
             {
                 PlaceTower();
+            }
+            
+            if (Input.GetMouseButtonDown(1))
+            {
+                RotateTower();
             }
         }
     }
@@ -38,13 +65,51 @@ public class BuildingManager : MonoBehaviour
         }
     }
     
+    
+    //***** public Functions
+    public void SelectTower(int index)
+    {
+        pendingTower =  Instantiate(towers[index], placePosition, transform.rotation);
+    }
+    
+    public void RotateTower()
+    {
+        if(pendingTower)
+        {
+            pendingTower.transform.Rotate(0, rotateValue, 0);
+        }
+    }
+    
     public void PlaceTower()
     {
         pendingTower = null;
     }
     
-    public void SelectTower(int index)
+    // used in the UI; Unity shows functions only used by the editor/UI as unused
+    public void ToggleGrid()
     {
-        pendingTower =  Instantiate(towers[index], placePosition, transform.rotation);
+        if(gridToggle.isOn)
+        {
+            gridEnabled = true;
+        }
+        else
+        {
+            gridEnabled = false;
+        }
+    }
+    
+    
+    //***** private Functions
+    float NearestGrid(float location, float grid)
+    {
+        float xDiff = location % grid;
+        location -= xDiff;
+        
+        if(xDiff > grid / 2)
+        {
+            location += grid;
+        }
+
+        return location;
     }
 }
