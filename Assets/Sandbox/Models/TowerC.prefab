@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8863614778306617410}
   m_Layer: 0
   m_Name: TowerC
-  m_TagString: Object
+  m_TagString: Selectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
