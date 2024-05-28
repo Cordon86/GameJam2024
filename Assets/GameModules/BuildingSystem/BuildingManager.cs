@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class BuildingManager : MonoBehaviour
 {
+    BuildingInputManager buildingInputManager;
+    
+    BuildingManager buildingManager;
     // [SerializeField] private
     [Header("Towers & Traps")]
     [SerializeField] private GameObject[] towers;
@@ -15,21 +18,38 @@ public class BuildingManager : MonoBehaviour
     [Header("Layers & Masks")]
     [SerializeField] private LayerMask layerMask;
 
+    [Header("Grid Settings")]
+    [SerializeField] private Toggle gridToggle;
+    [SerializeField] private float gridSize = 1.0f;
+    bool gridEnabled = true;
+    
+    public GameObject BuilderUI;
+    
+    [Header("DO NOT EDIT :- F around and Find Out")]
+    public GameObject pendingTower;
+    
+    
     // Private variables
-    private GameObject pendingTower;
     private Vector3 placePosition;
     private RaycastHit hit;
     private float rotateValue = 15.0f;
     
-    [SerializeField] private Toggle gridToggle;
-    public float gridSize = 1.0f;
-    bool gridEnabled = true;
+    
     
     //***** MonoBehaviour Functions
     private void Update()
     {
         if(pendingTower)
         {
+            if (buildingInputManager.enableBuildUI == true)
+            {
+                BuilderUI.SetActive(true);
+            }
+            else
+            {
+                BuilderUI.SetActive(false);
+            } 
+            
             if(gridEnabled)
             {
                 pendingTower.transform.position = new Vector3(
