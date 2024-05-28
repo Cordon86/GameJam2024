@@ -48,10 +48,10 @@ public class BuildingManager : MonoBehaviour
                 PlaceTower();
             }
             
-            if (Input.GetMouseButtonDown(1))
-            {
-                RotateTower();
-            }
+            //if (Input.GetMouseButtonDown(1))
+            //{
+            //    RotateTower();
+            //}
         }
     }
 

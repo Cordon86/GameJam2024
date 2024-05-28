@@ -280,6 +280,45 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "GameActions",
+            "id": "e17627e9-17b1-4526-be16-e14e64511bee",
+            "actions": [
+                {
+                    "name": "StartBuildMode",
+                    "type": "Button",
+                    "id": "641166fa-01fc-46d8-9387-dfc6610fc7e3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "92428d55-d640-4a4a-b7da-f6b9dff932a3",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StartBuildMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "976f96be-20f9-4642-89e4-ab7fc59a943a",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StartBuildMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

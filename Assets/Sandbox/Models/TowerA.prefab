@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5532923527160609227}
   m_Layer: 0
   m_Name: TowerA
-  m_TagString: Untagged
+  m_TagString: Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

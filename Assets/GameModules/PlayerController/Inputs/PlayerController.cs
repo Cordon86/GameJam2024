@@ -302,6 +302,45 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""GameActions"",
+            ""id"": ""e17627e9-17b1-4526-be16-e14e64511bee"",
+            ""actions"": [
+                {
+                    ""name"": ""StartBuildMode"",
+                    ""type"": ""Button"",
+                    ""id"": ""641166fa-01fc-46d8-9387-dfc6610fc7e3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""92428d55-d640-4a4a-b7da-f6b9dff932a3"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StartBuildMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""976f96be-20f9-4642-89e4-ab7fc59a943a"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StartBuildMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -316,6 +355,9 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         // BuildActions
         m_BuildActions = asset.FindActionMap("BuildActions", throwIfNotFound: true);
         m_BuildActions_RotateTower = m_BuildActions.FindAction("RotateTower", throwIfNotFound: true);
+        // GameActions
+        m_GameActions = asset.FindActionMap("GameActions", throwIfNotFound: true);
+        m_GameActions_StartBuildMode = m_GameActions.FindAction("StartBuildMode", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -519,6 +561,52 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         }
     }
     public BuildActionsActions @BuildActions => new BuildActionsActions(this);
+
+    // GameActions
+    private readonly InputActionMap m_GameActions;
+    private List<IGameActionsActions> m_GameActionsActionsCallbackInterfaces = new List<IGameActionsActions>();
+    private readonly InputAction m_GameActions_StartBuildMode;
+    public struct GameActionsActions
+    {
+        private @PlayerController m_Wrapper;
+        public GameActionsActions(@PlayerController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @StartBuildMode => m_Wrapper.m_GameActions_StartBuildMode;
+        public InputActionMap Get() { return m_Wrapper.m_GameActions; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(GameActionsActions set) { return set.Get(); }
+        public void AddCallbacks(IGameActionsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_GameActionsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GameActionsActionsCallbackInterfaces.Add(instance);
+            @StartBuildMode.started += instance.OnStartBuildMode;
+            @StartBuildMode.performed += instance.OnStartBuildMode;
+            @StartBuildMode.canceled += instance.OnStartBuildMode;
+        }
+
+        private void UnregisterCallbacks(IGameActionsActions instance)
+        {
+            @StartBuildMode.started -= instance.OnStartBuildMode;
+            @StartBuildMode.performed -= instance.OnStartBuildMode;
+            @StartBuildMode.canceled -= instance.OnStartBuildMode;
+        }
+
+        public void RemoveCallbacks(IGameActionsActions instance)
+        {
+            if (m_Wrapper.m_GameActionsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IGameActionsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_GameActionsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_GameActionsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public GameActionsActions @GameActions => new GameActionsActions(this);
     public interface IPlayerMovementActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -531,5 +619,9 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     public interface IBuildActionsActions
     {
         void OnRotateTower(InputAction.CallbackContext context);
+    }
+    public interface IGameActionsActions
+    {
+        void OnStartBuildMode(InputAction.CallbackContext context);
     }
 }
