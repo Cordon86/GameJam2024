@@ -208,7 +208,7 @@
             "id": "8a9cf15e-a0f6-4844-aff9-cdbc1436a2c4",
             "actions": [
                 {
-                    "name": "B",
+                    "name": "Sprint",
                     "type": "Button",
                     "id": "a6a113f7-9831-4757-b050-dddaf500399d",
                     "expectedControlType": "Button",
@@ -225,7 +225,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "B",
+                    "action": "Sprint",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -236,7 +236,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "B",
+                    "action": "Sprint",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -286,13 +286,13 @@
             "id": "e17627e9-17b1-4526-be16-e14e64511bee",
             "actions": [
                 {
-                    "name": "StartBuildMode",
-                    "type": "Button",
+                    "name": "BuildMode",
+                    "type": "Value",
                     "id": "641166fa-01fc-46d8-9387-dfc6610fc7e3",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -303,7 +303,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "StartBuildMode",
+                    "action": "BuildMode",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -314,7 +314,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "StartBuildMode",
+                    "action": "BuildMode",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

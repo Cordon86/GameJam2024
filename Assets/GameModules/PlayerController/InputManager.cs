@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class InputManager : MonoBehaviour
 {
@@ -18,17 +20,13 @@ public class InputManager : MonoBehaviour
     public float horizontalInput;
     public float verticalInput;
     public float moveAmount;
-    public bool b_Input;
+    public bool sprintInput;
     
     // Used by external scripts for camera movement
     public float cameraInputX;
     public float cameraInputY;
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /*
-     *  MonoBehaviour Functions
-     */
-
+    //***** MonoBehaviour Functions
     private void Awake()
     {
         animatorManager = GetComponent<AnimatorManager>();
@@ -37,24 +35,27 @@ public class InputManager : MonoBehaviour
 
     private void OnEnable()
     {
+        // Friendly reminder for the addled brain:
+        // InputActions.ActionMap.Action.performed = do stuff
+        // InputActions.ActionMap.Action.canceled = do stuff
+        
         if (playerController == null)
         {
             playerController = new PlayerController();
             
-            // Friendly reminder for the addled brain:
-            // InputActions.ActionMap.Action.performed = do stuff
-            // InputActions.ActionMap.Action.canceled = do stuff
-            // Also that unity is annoyingly inconcistent with the naming
-            // of these things Behaviour(english), canceled(american)
             playerController.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
             playerController.PlayerMovement.Camera.performed += i => cameraInput = i.ReadValue<Vector2>();
             
-            playerController.PlayerActions.B.performed += i => b_Input = true;
-            playerController.PlayerActions.B.canceled += i => b_Input = false;
+            playerController.PlayerActions.Sprint.performed += i => sprintInput = true;
+            playerController.PlayerActions.Sprint.canceled += i => sprintInput = false;
+
+            playerController.PlayerActions.Sprint.performed += DoSprint;
+
         }
         
         playerController.Enable();
     }
+
     
     private void OnDisable()
     {
@@ -62,10 +63,7 @@ public class InputManager : MonoBehaviour
     }
 
     
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /*
-     *  Public Functions
-     */
+    //***** Public Functions
     public void HandleAllInputs()
     {
         HandleMovementInput();
@@ -78,11 +76,7 @@ public class InputManager : MonoBehaviour
         
     }
     
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /*
-     *  Private Functions
-     */
-    
+    //***** Private Functions
     void HandleMovementInput()
     {
         horizontalInput = movementInput.x;
@@ -97,7 +91,7 @@ public class InputManager : MonoBehaviour
     void HandleSprintingInput()
     {
         // make sure player is running **no launching into sprinting from stationary and walking**
-        if (b_Input && moveAmount > 0.5f)  
+        if (sprintInput && moveAmount > 0.5f)  
         {
             playerLocomotion.isSprinting = true;
         }
@@ -106,4 +100,9 @@ public class InputManager : MonoBehaviour
             playerLocomotion.isSprinting = false;
         }
     }
+    
+    void DoSprint(InputAction.CallbackContext context)
+    {
+        Debug.Log("Sprint!");
+    } 
 }

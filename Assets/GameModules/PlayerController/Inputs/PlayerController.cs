@@ -230,7 +230,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             ""id"": ""8a9cf15e-a0f6-4844-aff9-cdbc1436a2c4"",
             ""actions"": [
                 {
-                    ""name"": ""B"",
+                    ""name"": ""Sprint"",
                     ""type"": ""Button"",
                     ""id"": ""a6a113f7-9831-4757-b050-dddaf500399d"",
                     ""expectedControlType"": ""Button"",
@@ -247,7 +247,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""B"",
+                    ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -258,7 +258,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""B"",
+                    ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -308,13 +308,13 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             ""id"": ""e17627e9-17b1-4526-be16-e14e64511bee"",
             ""actions"": [
                 {
-                    ""name"": ""StartBuildMode"",
-                    ""type"": ""Button"",
+                    ""name"": ""BuildMode"",
+                    ""type"": ""Value"",
                     ""id"": ""641166fa-01fc-46d8-9387-dfc6610fc7e3"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -325,7 +325,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""StartBuildMode"",
+                    ""action"": ""BuildMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -336,7 +336,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""StartBuildMode"",
+                    ""action"": ""BuildMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -351,13 +351,13 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         m_PlayerMovement_Camera = m_PlayerMovement.FindAction("Camera", throwIfNotFound: true);
         // PlayerActions
         m_PlayerActions = asset.FindActionMap("PlayerActions", throwIfNotFound: true);
-        m_PlayerActions_B = m_PlayerActions.FindAction("B", throwIfNotFound: true);
+        m_PlayerActions_Sprint = m_PlayerActions.FindAction("Sprint", throwIfNotFound: true);
         // BuildActions
         m_BuildActions = asset.FindActionMap("BuildActions", throwIfNotFound: true);
         m_BuildActions_RotateTower = m_BuildActions.FindAction("RotateTower", throwIfNotFound: true);
         // GameActions
         m_GameActions = asset.FindActionMap("GameActions", throwIfNotFound: true);
-        m_GameActions_StartBuildMode = m_GameActions.FindAction("StartBuildMode", throwIfNotFound: true);
+        m_GameActions_BuildMode = m_GameActions.FindAction("BuildMode", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -473,12 +473,12 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     // PlayerActions
     private readonly InputActionMap m_PlayerActions;
     private List<IPlayerActionsActions> m_PlayerActionsActionsCallbackInterfaces = new List<IPlayerActionsActions>();
-    private readonly InputAction m_PlayerActions_B;
+    private readonly InputAction m_PlayerActions_Sprint;
     public struct PlayerActionsActions
     {
         private @PlayerController m_Wrapper;
         public PlayerActionsActions(@PlayerController wrapper) { m_Wrapper = wrapper; }
-        public InputAction @B => m_Wrapper.m_PlayerActions_B;
+        public InputAction @Sprint => m_Wrapper.m_PlayerActions_Sprint;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -488,16 +488,16 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerActionsActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerActionsActionsCallbackInterfaces.Add(instance);
-            @B.started += instance.OnB;
-            @B.performed += instance.OnB;
-            @B.canceled += instance.OnB;
+            @Sprint.started += instance.OnSprint;
+            @Sprint.performed += instance.OnSprint;
+            @Sprint.canceled += instance.OnSprint;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
         {
-            @B.started -= instance.OnB;
-            @B.performed -= instance.OnB;
-            @B.canceled -= instance.OnB;
+            @Sprint.started -= instance.OnSprint;
+            @Sprint.performed -= instance.OnSprint;
+            @Sprint.canceled -= instance.OnSprint;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -565,12 +565,12 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     // GameActions
     private readonly InputActionMap m_GameActions;
     private List<IGameActionsActions> m_GameActionsActionsCallbackInterfaces = new List<IGameActionsActions>();
-    private readonly InputAction m_GameActions_StartBuildMode;
+    private readonly InputAction m_GameActions_BuildMode;
     public struct GameActionsActions
     {
         private @PlayerController m_Wrapper;
         public GameActionsActions(@PlayerController wrapper) { m_Wrapper = wrapper; }
-        public InputAction @StartBuildMode => m_Wrapper.m_GameActions_StartBuildMode;
+        public InputAction @BuildMode => m_Wrapper.m_GameActions_BuildMode;
         public InputActionMap Get() { return m_Wrapper.m_GameActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -580,16 +580,16 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_GameActionsActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_GameActionsActionsCallbackInterfaces.Add(instance);
-            @StartBuildMode.started += instance.OnStartBuildMode;
-            @StartBuildMode.performed += instance.OnStartBuildMode;
-            @StartBuildMode.canceled += instance.OnStartBuildMode;
+            @BuildMode.started += instance.OnBuildMode;
+            @BuildMode.performed += instance.OnBuildMode;
+            @BuildMode.canceled += instance.OnBuildMode;
         }
 
         private void UnregisterCallbacks(IGameActionsActions instance)
         {
-            @StartBuildMode.started -= instance.OnStartBuildMode;
-            @StartBuildMode.performed -= instance.OnStartBuildMode;
-            @StartBuildMode.canceled -= instance.OnStartBuildMode;
+            @BuildMode.started -= instance.OnBuildMode;
+            @BuildMode.performed -= instance.OnBuildMode;
+            @BuildMode.canceled -= instance.OnBuildMode;
         }
 
         public void RemoveCallbacks(IGameActionsActions instance)
@@ -614,7 +614,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     }
     public interface IPlayerActionsActions
     {
-        void OnB(InputAction.CallbackContext context);
+        void OnSprint(InputAction.CallbackContext context);
     }
     public interface IBuildActionsActions
     {
@@ -622,6 +622,6 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     }
     public interface IGameActionsActions
     {
-        void OnStartBuildMode(InputAction.CallbackContext context);
+        void OnBuildMode(InputAction.CallbackContext context);
     }
 }

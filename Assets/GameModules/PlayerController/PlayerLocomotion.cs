@@ -25,34 +25,9 @@ public class PlayerLocomotion : MonoBehaviour
     //***** MonoBehaviour Functions
     void Awake()
     {
-        Debug.Log("PlayerMovement Awake");
-        
-        Transform testobject = GameObject.Find("Main Camera").transform;
-        if (testobject == null)
-        {
-            Debug.Log("(testobject) Camera not found");
-        }
-        
-        
         rigidBodyPlayer = GetComponent<Rigidbody>();
-        if (rigidBodyPlayer == null)
-        {
-            Debug.Log("(rigidBodyPlayer) Rigidbody not found");
-        }
-        
-        
         inputManager = GetComponent<InputManager>();
-        if(inputManager == null)
-        {
-            Debug.Log("(inputManager) Input Manager not found");
-        }
-        
-        
         cameraObject = Camera.main.transform;
-        if(cameraObject == null)
-        {
-            Debug.Log("(cameraObject) Camera not found");
-        }
     } 
    
     
@@ -93,9 +68,6 @@ public class PlayerLocomotion : MonoBehaviour
                 moveDirection *= walkSpeed;
             }
         }
-
-        //TODO: Implement variable speed
-        //moveDirection *= moveSpeed;
         
         Vector3 movementVelocity = moveDirection;
         rigidBodyPlayer.velocity = movementVelocity;
