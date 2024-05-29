@@ -11,6 +11,16 @@ using UnityEngine.InputSystem;
  * Interfaces are implemented by the generated class created by the input system.
  */
 
+/**
+ * Process for adding new input:
+ * 1. Add the new input in the input actions asset
+ * 2. Add the new input in the IGameplayActions or IUIActions interface **This step is often automated**
+ * 3. Implement the new input in this class
+ * 4. Subscribe to the new input in the class that needs it
+ * 5. Implement the new input in the class that needs it
+ * 6. Test the new input
+ * 
+ */
 
 [CreateAssetMenu(menuName = "InputReader")]
 public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInput.IUIActions
@@ -54,6 +64,8 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
     public event Action JumpCanceledEvent;
     public event Action PauseEvent;
     public event Action ResumeEvent;
+    public event Action SprintEvent;
+    public event Action SprintCanceledEvent;
     
     
     //***** IGameplayActions
@@ -83,7 +95,20 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
             JumpCanceledEvent?.Invoke();
         }
     }
-
+    
+    public void OnSprint(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            SprintEvent?.Invoke();
+            Debug.Log($"Phase: {context.phase} OnSprint");
+        }
+        else if (context.phase == InputActionPhase.Canceled)
+        {
+            SprintCanceledEvent?.Invoke();
+            Debug.Log($"Phase: {context.phase} OnSprint");
+        }
+    }
     public virtual void OnPause(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started)
@@ -93,7 +118,9 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
         }
         //Debug.Log($"Phase: {context.phase} OnPause");
     }
-    
+
+   
+
     #endregion
 
     //***** IUIActions

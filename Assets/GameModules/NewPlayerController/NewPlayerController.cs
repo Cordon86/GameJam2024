@@ -8,25 +8,34 @@ public class NewPlayerController : MonoBehaviour
 {
     [SerializeField] private InputReader input;
     
-    [SerializeField] private float speed;
-    [SerializeField] private float jumpSpeed;
+    [SerializeField] private float walkSpeed = 10.0f;
+    [SerializeField] private float sprintSpeed = 15.0f;
+    [SerializeField] private float jumpSpeed = 10.0f;
+
+    private float currentSpeed;
     
     Vector2 moveDirection;
     bool isJumping;
+    bool isSprinting;
     
 
     void Start()
     {
+        currentSpeed = walkSpeed;
         // Subscribe to the events
         input.MoveEvent += HandleMove;
         
         input.JumpEvent += HandleJump;
         input.JumpCanceledEvent += HandleJumpCanceled;
+        
+        input.SprintEvent += HandleSprint;
+        input.SprintCanceledEvent += HandleSprintCanceled;
     }
 
     
     void Update()
     {
+        Sprint();
         Move();
         Jump();
     }
@@ -45,6 +54,16 @@ public class NewPlayerController : MonoBehaviour
     {
         isJumping = false;
     }
+    
+    void HandleSprint()
+    {
+        isSprinting = true;
+    }
+    
+    void HandleSprintCanceled()
+    {
+        isSprinting = false;
+    }
 
     
     void Move()
@@ -54,7 +73,7 @@ public class NewPlayerController : MonoBehaviour
             return;
         }
         //transform.position += new Vector3(moveDirection.y, 0, moveDirection.x) * (speed * Time.deltaTime);
-        transform.position += new Vector3(moveDirection.x, 0, moveDirection.y) * (speed * Time.deltaTime);
+        transform.position += new Vector3(moveDirection.x, 0, moveDirection.y) * (currentSpeed * Time.deltaTime);
     }
     
     
@@ -64,6 +83,19 @@ public class NewPlayerController : MonoBehaviour
         {
             transform.position += Vector3.up * (jumpSpeed * Time.deltaTime);
             //isJumping = false;
+        }
+    }
+
+    void Sprint()
+    {
+        if (!isSprinting)
+        {
+            currentSpeed = walkSpeed;
+        }
+
+        if (isSprinting)
+        {
+            currentSpeed = sprintSpeed;
         }
     }
 }
