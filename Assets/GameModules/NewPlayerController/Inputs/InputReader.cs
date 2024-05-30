@@ -15,9 +15,12 @@ using UnityEngine.InputSystem;
  * Process for adding new input:
  * 1. Add the new input in the input actions asset
  * 2. Add the new input in the IGameplayActions or IUIActions interface **This step is often automated**
+ * -----------------------------------------------------------------------------------------------
  * 3. Implement the new input in this class
+ * -----------------------------------------------------------------------------------------------
  * 4. Subscribe to the new input in the class that needs it
  * 5. Implement the new input in the class that needs it
+ * -----------------------------------------------------------------------------------------------
  * 6. Test the new input
  * 
  */
@@ -29,6 +32,21 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
     // It contains all the actions defined in the input actions asset (GameInputActions, UIActions, etc.)
     private GameInput gameInput;
 
+    //***** list of events that can be subscribed to
+    #region Event List
+    
+    public event Action<Vector2> MoveEvent;
+    public event Action JumpEvent;
+    public event Action JumpCanceledEvent;
+    public event Action PauseEvent;
+    public event Action ResumeEvent;
+    public event Action SprintEvent;
+    public event Action SprintCanceledEvent;
+    
+    
+    #endregion
+    
+    
     // OnEnable is called when the scriptable object is created or enabled
     private void OnEnable()
     {
@@ -44,12 +62,15 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
     
     
     // Pause menu with switching inputs from gameplay to UI and vice versa
+    // Designed to be called from the GameManager
+    // DesignChoice: Disable all inputs except one
     public void EnableGameplayInput()
     {
         gameInput.Gameplay.Enable();
         // Disable all other inputs
         gameInput.UI.Disable();
     }
+    
     
     public void EnableUIInput()
     {
@@ -58,14 +79,7 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
         gameInput.Gameplay.Disable();
     }
 
-    // list of events that can be subscribed to
-    public event Action<Vector2> MoveEvent;
-    public event Action JumpEvent;
-    public event Action JumpCanceledEvent;
-    public event Action PauseEvent;
-    public event Action ResumeEvent;
-    public event Action SprintEvent;
-    public event Action SprintCanceledEvent;
+    
     
     
     //***** IGameplayActions

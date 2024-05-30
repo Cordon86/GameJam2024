@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     {
         input.PauseEvent += HandlePause;
         input.ResumeEvent += HandleResume;
-        
     }
 
     // Update is called once per frame
