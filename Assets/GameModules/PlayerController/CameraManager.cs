@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraManager : MonoBehaviour
 {
-    // [SerializeField] private 
-    InputManager inputManager;
+    // Reference to the InputReader scriptable object
+    [SerializeField] private InputReader input;
+
     Vector3 cameraVelocity = Vector3.zero;
     
     [Header("Targets & Transforms")]
@@ -14,7 +16,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private Transform cameraPivot;           // Pivot point of the camera (object transform)
     [SerializeField] private Transform cameraTransform;       // Camera object transform
    
-  
+    Vector2 cameraDirection;
     [Header("Pitch Variables (Up/Down)")]
     [SerializeField] private float cameraPitchSpeed = 1.0f;
     [SerializeField] private float minPitchAngle = -35.0f;
@@ -38,30 +40,44 @@ public class CameraManager : MonoBehaviour
 
     private void Awake()
     {
-        //targetTransform = GameObject.Find("Player").transform;
-        inputManager = FindObjectOfType<InputManager>();
-        targetTransform = FindObjectOfType<PlayerControlManager>().transform;
+        input.CameraEvent += HandleCamera;
         startingPosition = cameraTransform.position.z;
+    }
+    
+    void HandleCamera(Vector2 dir)
+    {
+        cameraDirection = dir;
+    }
+    
+    void CameraMove()
+    {
+        // do camera movement
     }
 
     public void HandleAllCameraMovement()
     {
-        FollowTarget();
-        RotateCamera();
+        CameraMove();
+        //FollowTarget();
+        //RotateCamera();
+        //RotateCamera();
         //HandleCameraCollisions();
     }
     
+    
+    #region Unused functions
+     /*  
     void FollowTarget()
     {
         Vector3 targetPosition = Vector3.SmoothDamp(transform.position, targetTransform.position, 
                                                     ref cameraVelocity, cameraSmoothTime);
         transform.position = targetPosition;
     }
-     
+  
     void RotateCamera()
     {
+        //cameraDirection
         Vector3 rotation;
-        cameraYaw += (inputManager.cameraInputX * cameraYawSpeed);
+        cameraYaw += (cameraDirection.y * cameraYawSpeed);
         cameraPitch += (inputManager.cameraInputY * cameraPitchSpeed);
         cameraPitch = Mathf.Clamp(cameraPitch, minPitchAngle, maxPitchAngle);
         
@@ -75,6 +91,7 @@ public class CameraManager : MonoBehaviour
         targetRotation = Quaternion.Euler(rotation);
         cameraPivot.localRotation = targetRotation;
     }
+    */
    
     /*
     void HandleCameraCollisions()
@@ -109,4 +126,7 @@ public class CameraManager : MonoBehaviour
     {
         // Do zoom in/out
     }
+
+    #endregion
+    
 }

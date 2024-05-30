@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class NewPlayerController : MonoBehaviour
 {
+    // Reference to the InputReader scriptable object
     [SerializeField] private InputReader input;
     
     [SerializeField] private float walkSpeed = 10.0f;

@@ -42,6 +42,7 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
     public event Action ResumeEvent;
     public event Action SprintEvent;
     public event Action SprintCanceledEvent;
+    public event Action<Vector2> CameraEvent;   
     
     
     #endregion
@@ -93,6 +94,11 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
         
         
         MoveEvent?.Invoke(context.ReadValue<Vector2>());
+    }
+
+    public void OnCamera(InputAction.CallbackContext context)
+    {
+        CameraEvent?.Invoke(context.ReadValue<Vector2>());
     }
 
     public void OnJump(InputAction.CallbackContext context)
