@@ -7,6 +7,16 @@ using UnityEngine.UI;
 
 public class BuildingManager : MonoBehaviour
 {
+    /*
+     * This class is used to manage the building of towers and traps
+     * It is used to place the towers and traps on the grid
+     * Towers and traps can be rotated to face different directions
+     * TODO: Add the ability to upgrade towers
+     * TODO: Add the feature that traps can only be roted by 90 degrees at a time.
+     */
+    
+    // TODO: replace with a different controller?
+    /*
     BuildingInputManager buildingInputManager;
     
     BuildingManager buildingManager;
@@ -132,4 +142,5 @@ public class BuildingManager : MonoBehaviour
 
         return location;
     }
+    */
 }

@@ -5,7 +5,12 @@ using UnityEngine;
 
 public class BuildingInputManager : MonoBehaviour
 {
-    // TODO replace with a different controller?
+    
+    /*
+     * // TODO replace with a different controller?
+     */
+    
+    /*
     PlayerController playerController;
     BuildingManager buildingManager;
 
@@ -45,6 +50,8 @@ public class BuildingInputManager : MonoBehaviour
     {
         Debug.Log("enabelBuildUI: " + enableBuildUI);
     }
+    
+    */
 
 
 }
