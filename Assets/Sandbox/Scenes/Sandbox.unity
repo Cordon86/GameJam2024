@@ -4267,7 +4267,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5817449475002979949, guid: 8551953195675a24a9fd6aedcd146011, type: 3}
       propertyPath: jumpSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5817449475002979949, guid: 8551953195675a24a9fd6aedcd146011, type: 3}
+      propertyPath: walkSpeed
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5817449475002979949, guid: 8551953195675a24a9fd6aedcd146011, type: 3}
+      propertyPath: sprintSpeed
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8551953195675a24a9fd6aedcd146011, type: 3}
