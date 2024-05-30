@@ -196,6 +196,17 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": """",
+                    ""id"": ""ccfe849d-a689-44f7-810d-0d9a321299ab"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
                     ""name"": ""RightStick"",
                     ""id"": ""f9c4dc6d-e673-49ab-8bf9-ae8a9135d416"",
                     ""path"": ""2DVector(mode=2)"",
