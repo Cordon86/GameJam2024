@@ -52,6 +52,14 @@ public class CameraManager : MonoBehaviour
     void CameraMove()
     {
         // do camera movement
+        Vector3 targetPosition = Vector3.SmoothDamp(transform.position, targetTransform.position, 
+            ref cameraVelocity, cameraSmoothTime);
+        transform.position = targetPosition;
+    }
+
+    private void Update()
+    {
+        HandleAllCameraMovement();
     }
 
     public void HandleAllCameraMovement()
@@ -59,26 +67,16 @@ public class CameraManager : MonoBehaviour
         CameraMove();
         //FollowTarget();
         //RotateCamera();
-        //RotateCamera();
+        RotateCamera();
         //HandleCameraCollisions();
     }
     
-    
-    #region Unused functions
-     /*  
-    void FollowTarget()
-    {
-        Vector3 targetPosition = Vector3.SmoothDamp(transform.position, targetTransform.position, 
-                                                    ref cameraVelocity, cameraSmoothTime);
-        transform.position = targetPosition;
-    }
-  
     void RotateCamera()
     {
         //cameraDirection
         Vector3 rotation;
-        cameraYaw += (cameraDirection.y * cameraYawSpeed);
-        cameraPitch += (inputManager.cameraInputY * cameraPitchSpeed);
+        cameraYaw += (cameraDirection.x * cameraYawSpeed);
+        cameraPitch += (cameraDirection.y * cameraPitchSpeed);
         cameraPitch = Mathf.Clamp(cameraPitch, minPitchAngle, maxPitchAngle);
         
         rotation = Vector3.zero;
@@ -91,7 +89,8 @@ public class CameraManager : MonoBehaviour
         targetRotation = Quaternion.Euler(rotation);
         cameraPivot.localRotation = targetRotation;
     }
-    */
+    
+    #region Unused functions
    
     /*
     void HandleCameraCollisions()
@@ -120,12 +119,12 @@ public class CameraManager : MonoBehaviour
         currentCameraPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, targetPosition, 0.2f);
         cameraTransform.localPosition = currentCameraPosition;
     }
-    */
-
     void HandleZoom()
-    {
-        // Do zoom in/out
-    }
+         {
+             // Do zoom in/out
+         }
+         
+    */
 
     #endregion
     

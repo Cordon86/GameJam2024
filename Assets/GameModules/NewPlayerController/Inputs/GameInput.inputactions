@@ -7,7 +7,7 @@
             "actions": [
                 {
                     "name": "Move",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "d896a8c0-c0c9-4670-9ddd-a3c41f4b7c1b",
                     "expectedControlType": "Vector2",
                     "processors": "",
@@ -53,9 +53,9 @@
             ],
             "bindings": [
                 {
-                    "name": "2D Vector",
+                    "name": "Movement",
                     "id": "d793b74d-9a75-466f-afa3-6f1b20790055",
-                    "path": "2DVector",
+                    "path": "2DVector(mode=2)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
