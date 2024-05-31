@@ -71,6 +71,15 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BuildMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""a970d876-2298-4f63-8895-eb51a00c1066"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -271,6 +280,28 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""52713b03-6994-4fb3-a6c9-57eb92dfc52f"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BuildMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""765f6b20-6d27-489b-a5d9-7c9899643c81"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BuildMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -312,6 +343,45 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""BuildUI"",
+            ""id"": ""791ed9fb-d1c3-4fda-afcb-0759a43b2a0a"",
+            ""actions"": [
+                {
+                    ""name"": ""BuildMenuClose"",
+                    ""type"": ""Button"",
+                    ""id"": ""c17e92f0-c11c-4c0e-a102-10ec500049b1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""2e3b805e-6630-49a0-9c41-2fd2b78f1fbd"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BuildMenuClose"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""97950a10-2ce2-475a-9c11-e60d2dfa1a48"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BuildMenuClose"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -323,9 +393,13 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_Sprint = m_Gameplay.FindAction("Sprint", throwIfNotFound: true);
         m_Gameplay_PauseMenu = m_Gameplay.FindAction("PauseMenu", throwIfNotFound: true);
+        m_Gameplay_BuildMenu = m_Gameplay.FindAction("BuildMenu", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Resume = m_UI.FindAction("Resume", throwIfNotFound: true);
+        // BuildUI
+        m_BuildUI = asset.FindActionMap("BuildUI", throwIfNotFound: true);
+        m_BuildUI_BuildMenuClose = m_BuildUI.FindAction("BuildMenuClose", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -392,6 +466,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_Sprint;
     private readonly InputAction m_Gameplay_PauseMenu;
+    private readonly InputAction m_Gameplay_BuildMenu;
     public struct GameplayActions
     {
         private @GameInput m_Wrapper;
@@ -401,6 +476,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
         public InputAction @Sprint => m_Wrapper.m_Gameplay_Sprint;
         public InputAction @PauseMenu => m_Wrapper.m_Gameplay_PauseMenu;
+        public InputAction @BuildMenu => m_Wrapper.m_Gameplay_BuildMenu;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -425,6 +501,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @PauseMenu.started += instance.OnPauseMenu;
             @PauseMenu.performed += instance.OnPauseMenu;
             @PauseMenu.canceled += instance.OnPauseMenu;
+            @BuildMenu.started += instance.OnBuildMenu;
+            @BuildMenu.performed += instance.OnBuildMenu;
+            @BuildMenu.canceled += instance.OnBuildMenu;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -444,6 +523,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @PauseMenu.started -= instance.OnPauseMenu;
             @PauseMenu.performed -= instance.OnPauseMenu;
             @PauseMenu.canceled -= instance.OnPauseMenu;
+            @BuildMenu.started -= instance.OnBuildMenu;
+            @BuildMenu.performed -= instance.OnBuildMenu;
+            @BuildMenu.canceled -= instance.OnBuildMenu;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -507,6 +589,52 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // BuildUI
+    private readonly InputActionMap m_BuildUI;
+    private List<IBuildUIActions> m_BuildUIActionsCallbackInterfaces = new List<IBuildUIActions>();
+    private readonly InputAction m_BuildUI_BuildMenuClose;
+    public struct BuildUIActions
+    {
+        private @GameInput m_Wrapper;
+        public BuildUIActions(@GameInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @BuildMenuClose => m_Wrapper.m_BuildUI_BuildMenuClose;
+        public InputActionMap Get() { return m_Wrapper.m_BuildUI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(BuildUIActions set) { return set.Get(); }
+        public void AddCallbacks(IBuildUIActions instance)
+        {
+            if (instance == null || m_Wrapper.m_BuildUIActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_BuildUIActionsCallbackInterfaces.Add(instance);
+            @BuildMenuClose.started += instance.OnBuildMenuClose;
+            @BuildMenuClose.performed += instance.OnBuildMenuClose;
+            @BuildMenuClose.canceled += instance.OnBuildMenuClose;
+        }
+
+        private void UnregisterCallbacks(IBuildUIActions instance)
+        {
+            @BuildMenuClose.started -= instance.OnBuildMenuClose;
+            @BuildMenuClose.performed -= instance.OnBuildMenuClose;
+            @BuildMenuClose.canceled -= instance.OnBuildMenuClose;
+        }
+
+        public void RemoveCallbacks(IBuildUIActions instance)
+        {
+            if (m_Wrapper.m_BuildUIActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IBuildUIActions instance)
+        {
+            foreach (var item in m_Wrapper.m_BuildUIActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_BuildUIActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public BuildUIActions @BuildUI => new BuildUIActions(this);
     public interface IGameplayActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -514,9 +642,14 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnPauseMenu(InputAction.CallbackContext context);
+        void OnBuildMenu(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
         void OnResume(InputAction.CallbackContext context);
+    }
+    public interface IBuildUIActions
+    {
+        void OnBuildMenuClose(InputAction.CallbackContext context);
     }
 }

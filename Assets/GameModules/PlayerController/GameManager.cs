@@ -6,11 +6,14 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private InputReader input;
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject buildMenu;
     
     void Start()
     {
         input.PauseMenuEvent += HandlePauseMenu;
         input.ResumeEvent += HandleResume;
+        input.BuildMenuEvent += HandleBuildMenu;
+        input.BuildMenuCloseEvent += HandleBuildMenuClose;
     }
 
     // Update is called once per frame
@@ -29,5 +32,16 @@ public class GameManager : MonoBehaviour
     {
         pauseMenu.SetActive(false);
         //Time.timeScale = 1;
+    }
+    
+    
+    void HandleBuildMenu()
+    {
+        buildMenu.SetActive(true);
+    }
+    
+    void HandleBuildMenuClose()
+    {
+        buildMenu.SetActive(false);
     }
 }
