@@ -71,7 +71,7 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
     public void EnableGameplayInput()
     {
         gameInput.Gameplay.Enable();
-        // Disable all other inputs
+        //*** Disable all other inputs
         gameInput.UI.Disable();
     }
     
@@ -79,7 +79,7 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
     public void EnableUIInput()
     {
         gameInput.UI.Enable();
-        // Disable all other inputs
+        //*** Disable all other inputs
         gameInput.Gameplay.Disable();
     }
 
@@ -89,13 +89,10 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
     //***** IGameplayActions
     #region IGameplayActions
     
+    // context.phase returns the phase of the input (started, performed, canceled)
+    // context.ReadValue<Vector2>() returns the value of the input
     public virtual void OnMove(InputAction.CallbackContext context)
     {
-        // context.phase returns the phase of the input (started, performed, canceled)
-        // context.ReadValue<Vector2>() returns the value of the input
-        //Debug.Log($"Phase: {context.phase} OnMove: {context.ReadValue<Vector2>()}");
-        
-        
         MoveEvent?.Invoke(context.ReadValue<Vector2>());
     }
 
@@ -106,9 +103,6 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        //Debug.Log($"Phase: {context.phase} OnJump");
-        
-        // Jump event is triggered when the jump button is pressed there is no value to read
         if (context.phase == InputActionPhase.Started)
         {
             JumpEvent?.Invoke();
@@ -118,7 +112,6 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
             JumpCanceledEvent?.Invoke();
         }
     }
-
    
 
     public void OnSprint(InputAction.CallbackContext context)
@@ -135,6 +128,7 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
         }
     }
     
+    
     public void OnPauseMenu(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started)
@@ -142,12 +136,13 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
             PauseMenuEvent?.Invoke();
             EnableUIInput();
         }
-        //Debug.Log($"Phase: {context.phase} OnPause");
     }
     
 
     #endregion
 
+    
+    
     //***** IUIActions
     #region IUIActions
     
@@ -158,7 +153,6 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
             ResumeEvent?.Invoke();
             EnableGameplayInput();
         }
-        //Debug.Log($"Phase: {context.phase} OnResume");
     }
     
     #endregion
