@@ -35,14 +35,17 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
     //***** list of events that can be subscribed to
     #region Event List
     
+    // Events for the player controller
     public event Action<Vector2> MoveEvent;
+    public event Action<Vector2> CameraEvent; 
     public event Action JumpEvent;
     public event Action JumpCanceledEvent;
-    public event Action PauseMenuEvent;
-    public event Action ResumeEvent;
     public event Action SprintEvent;
     public event Action SprintCanceledEvent;
-    public event Action<Vector2> CameraEvent;   
+    
+    // Events for the UI
+    public event Action PauseMenuEvent;
+    public event Action ResumeEvent;
     
     
     #endregion
