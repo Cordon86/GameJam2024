@@ -38,7 +38,7 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
     public event Action<Vector2> MoveEvent;
     public event Action JumpEvent;
     public event Action JumpCanceledEvent;
-    public event Action PauseEvent;
+    public event Action PauseMenuEvent;
     public event Action ResumeEvent;
     public event Action SprintEvent;
     public event Action SprintCanceledEvent;
@@ -115,7 +115,9 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
             JumpCanceledEvent?.Invoke();
         }
     }
-    
+
+   
+
     public void OnSprint(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started)
@@ -129,23 +131,23 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
             Debug.Log($"Phase: {context.phase} OnSprint");
         }
     }
-    public virtual void OnPause(InputAction.CallbackContext context)
+    
+    public void OnPauseMenu(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started)
         {
-            PauseEvent?.Invoke();
+            PauseMenuEvent?.Invoke();
             EnableUIInput();
         }
         //Debug.Log($"Phase: {context.phase} OnPause");
     }
-
-   
+    
 
     #endregion
 
     //***** IUIActions
     #region IUIActions
-    //***** IUIActions
+    
     public void OnResume(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started)

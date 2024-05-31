@@ -33,7 +33,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Pause",
+                    "name": "PauseMenu",
                     "type": "Button",
                     "id": "383f8148-cb36-4a16-9078-b0473f4a9fe2",
                     "expectedControlType": "Button",
@@ -147,7 +147,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pause",
+                    "action": "PauseMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -158,7 +158,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pause",
+                    "action": "PauseMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

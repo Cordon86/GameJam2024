@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        input.PauseEvent += HandlePause;
+        input.PauseMenuEvent += HandlePauseMenu;
         input.ResumeEvent += HandleResume;
     }
 
@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
         
     }
     
-    void HandlePause()
+    void HandlePauseMenu()
     {
         pauseMenu.SetActive(true);
         //Time.timeScale = 0;
