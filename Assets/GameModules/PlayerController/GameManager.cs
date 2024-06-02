@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
         input.ResumeEvent += HandleResume;
         input.BuildMenuEvent += HandleBuildMenu;
         input.BuildMenuCloseEvent += HandleBuildMenuClose;
+        input.MoveSelectionEvent += HandleMoveSelection;
     }
 
     // Update is called once per frame
@@ -44,4 +45,12 @@ public class GameManager : MonoBehaviour
     {
         buildMenu.SetActive(false);
     }
+    
+    void HandleMoveSelection(Vector2 direction)
+    {
+        // Move the selection in the UI
+        
+    }
+    
+    
 }
