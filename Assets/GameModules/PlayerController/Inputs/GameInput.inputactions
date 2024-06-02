@@ -176,7 +176,7 @@
                     "id": "f9c4dc6d-e673-49ab-8bf9-ae8a9135d416",
                     "path": "2DVector(mode=2)",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "ScaleVector2(x=8,y=8)",
                     "groups": "",
                     "action": "Camera",
                     "isComposite": true,
