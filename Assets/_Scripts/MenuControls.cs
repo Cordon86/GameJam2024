@@ -14,13 +14,12 @@ public class MenuControls : MonoBehaviour
     [SerializeField] private GameObject firstButtonbutton;
     
     
-    
     void OnEnable()
     {
         input.MoveSelectionEvent += HandleMoveSelection;
         
         // move the selection
-        var currentIndex = uiButtons.IndexOf(EventSystem.current.currentSelectedGameObject);
+        //var currentIndex = uiButtons.IndexOf(EventSystem.current.currentSelectedGameObject);
         EventSystem.current.SetSelectedGameObject(null);                    //clear the currently selected game object
         EventSystem.current.SetSelectedGameObject(firstButtonbutton);       // set the starting button as the selected game object
 
@@ -30,25 +29,10 @@ public class MenuControls : MonoBehaviour
     {
         input.MoveSelectionEvent -= HandleMoveSelection;
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     
     void HandleMoveSelection(Vector2 direction)
     {
-        // move the selection
-        //var currentIndex = uiButtons.IndexOf(EventSystem.current.currentSelectedGameObject);
-        //EventSystem.current.SetSelectedGameObject(null);                    //clear the currently selected game object
-        //EventSystem.current.SetSelectedGameObject(firstButtonbutton);       // set the starting button as the selected game object
-        
         
     }
     
