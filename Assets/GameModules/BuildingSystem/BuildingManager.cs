@@ -16,10 +16,13 @@ public class BuildingManager : MonoBehaviour
      */
     
     // TODO: replace with a different controller?
-    /*
+ 
     BuildingInputManager buildingInputManager;
-    
     BuildingManager buildingManager;
+    
+    [Header("Player")] 
+    [SerializeField] Transform player;
+    
     // [SerializeField] private
     [Header("Towers & Traps")]
     [SerializeField] private GameObject[] towers;
@@ -49,17 +52,10 @@ public class BuildingManager : MonoBehaviour
     //***** MonoBehaviour Functions
     private void Update()
     {
+        var playerPosition = player.position;
         if(pendingTower)
         {
-            if (buildingInputManager.enableBuildUI == true)
-            {
-                BuilderUI.SetActive(true);
-            }
-            else
-            {
-                BuilderUI.SetActive(false);
-            } 
-            
+            /*
             if(gridEnabled)
             {
                 pendingTower.transform.position = new Vector3(
@@ -69,6 +65,7 @@ public class BuildingManager : MonoBehaviour
                                                 );
             }
             else
+            */
             {
                 pendingTower.transform.position = placePosition;
             }
@@ -87,6 +84,7 @@ public class BuildingManager : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadDefaultValue());
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out hit, 1000, layerMask))
@@ -112,6 +110,7 @@ public class BuildingManager : MonoBehaviour
     
     public void PlaceTower()
     {
+        Debug.Log($"Placing tower");
         pendingTower = null;
     }
     
@@ -142,5 +141,5 @@ public class BuildingManager : MonoBehaviour
 
         return location;
     }
-    */
+ 
 }

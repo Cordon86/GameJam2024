@@ -22,6 +22,7 @@ public class Selection : MonoBehaviour
 
     void Update()
     {
+        // Check if the user has clicked on a tower or trap
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
